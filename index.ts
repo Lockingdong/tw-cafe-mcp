@@ -67,7 +67,7 @@ function validateCity(city: string): string {
 // Add todo tool - creates a new todo item
 server.tool(
   "tw_cafe_search_tool",
-  "搜尋台灣的咖啡廳，直隨機挑選 10 間，並回傳咖啡廳的資訊，並且一定要加上 google map 的連結",
+  "搜尋台灣的咖啡廳，直隨機挑選 10 間，並回傳咖啡廳的資訊，並且務必要加上 google map 的連結",
   {
     city: z.string().describe(`
       台灣的縣市，例如：taipei, hsinchu, kaohsiung, etc. 
@@ -105,19 +105,11 @@ server.tool(
           return {
             type: "text",
             text: `
-              店名: ${cafe.name}
               google map: ${googleMapLink}
+              店名: ${cafe.name}
               地址: ${cafe.address}
-              捷運站: ${cafe.mrt}
               營業時間: ${cafe.open_time}
-              有無限時: ${cafe.limited_time}
               插座多: ${cafe.socket}
-              可站立工作: ${cafe.standing_desk}
-              咖啡好喝: ${cafe.tasty}
-              價格便宜: ${cafe.cheap}
-              裝潢音樂: ${cafe.music}
-              安靜程度: ${cafe.quiet}
-              通常有位: ${cafe.seat}
             `,
           }
         }),
