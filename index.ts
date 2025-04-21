@@ -4,6 +4,30 @@ import { z } from "zod";
 import 'dotenv/config'
 import axios from 'axios';
 
+// 全台灣咖啡廳資料
+const twCafeUrl = "https://cafenomad.tw/api/v1.2/cafes"
+// 允許的縣市清單（英文）
+const ALLOWED_CITIES = [
+  'taipei',
+  'keelung',
+  'taoyuan',
+  'hsinchu',
+  'miaoli',
+  'taichung',
+  'nantou',
+  'changhua',
+  'yunlin',
+  'chiayi',
+  'tainan',
+  'kaohsiung',
+  'pingtung',
+  'yilan',
+  'hualien',
+  'taitung',
+  'penghu',
+  'lienchiang'
+] as const;
+
 interface Cafe {
   id: string; // 一組UUID
   name: string; // 店名
@@ -24,9 +48,6 @@ interface Cafe {
   open_time: string; // 營業時間
 }
 
-// 全台灣咖啡廳資料
-const twCafeUrl = "https://cafenomad.tw/api/v1.2/cafes"
-
 // 建立 MCP 伺服器
 const server = new McpServer({
   name: "TW Cafe Search",
@@ -34,22 +55,36 @@ const server = new McpServer({
   description: "搜尋台灣的咖啡廳",
 });
 
+// 驗證城市名稱
+function validateCity(city: string): string {
+  const lowerCity = city.toLowerCase();
+  if (!ALLOWED_CITIES.includes(lowerCity as any)) {
+    throw new Error(`不支援的縣市：${city}。請使用以下縣市之一：${ALLOWED_CITIES.join(', ')}`);
+  }
+  return lowerCity;
+}
 
 // Add todo tool - creates a new todo item
 server.tool(
   "tw_cafe_search_tool",
-  "搜尋台灣的咖啡廳，直隨機挑選 10 間，並回傳咖啡廳的資訊，並且加上 google map 的連結",
+  "搜尋台灣的咖啡廳，直隨機挑選 10 間，並回傳咖啡廳的資訊，並且一定要加上 google map 的連結",
   {
-    city: z.string().describe("台灣的縣市，例如：taipei, hsinchu, kaohsiung, etc. 如輸入中文，會自動轉換為英文"),
+    city: z.string().describe(`
+      台灣的縣市，例如：taipei, hsinchu, kaohsiung, etc. 
+      如輸入中文，會自動轉換為英文
+    `),
   },
   async ({ city }) => {
     try {
       if (!city) {
         throw new Error("縣市不能為空");
       }
+
+      // 驗證縣市名稱
+      const validCity = validateCity(city);
       
       // 取得全台灣咖啡廳資料
-      const response = await axios.get(`${twCafeUrl}/${city}`)
+      const response = await axios.get(`${twCafeUrl}/${validCity}`)
       const cafes = response.data as Cafe[];
 
       if (cafes.length === 0) {

@@ -39,4 +39,4 @@ Prompt 範例：
 
 ## 資料來源
 
-本工具使用 [Cafe Nomad API](https://cafenomad.tw/api/v1.2/cafes) 提供的資料。
+本工具使用 [Cafe Nomad API](https://cafenomad.tw/) 提供的資料。
