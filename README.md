@@ -2,6 +2,8 @@
 
 這是一個基於 MCP (Model Context Protocol) 開發的台灣咖啡廳搜尋工具，能夠幫助使用者快速找到各縣市的咖啡廳資訊。
 
+<img width="713" alt="Screenshot 2025-04-22 at 1 47 59 AM" src="https://github.com/user-attachments/assets/6a8636f5-48e7-4bfa-9daf-e28772a406c9" />
+
 ## 功能特色
 
 - 支援全台灣各縣市的咖啡廳搜尋
@@ -30,6 +32,7 @@
   "/Users/lidongying/Documents/Projects/tw-cafe-mcp/index.ts"
   ]
 }
+
 ```
 
 ## 使用方式
