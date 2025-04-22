@@ -98,14 +98,16 @@ server.tool(
           }]
         };
       }
-  
-      // 隨機挑選 10 間，如果不足 10 間，則回傳所有資料
-      const randomCafes = cafes.filter(cafe => {
+
+      const targetCafes = cafes.filter(cafe => {
         // 如果有輸入區域，則過濾出符合的咖啡廳
         if (!dist) return true; // 如果沒有輸入區域，則不過濾
         // 檢查地址中是否包含區域名稱
-        return cafe.address.includes(dist)
-      }).sort(() => Math.random() - 0.5).slice(0, 10);
+        return cafe.address.includes(dist.trim())
+      })
+  
+      // 隨機挑選 10 間，如果不足 10 間，則回傳所有資料
+      const randomCafes = targetCafes.sort(() => Math.random() - 0.5).slice(0, 10);
 
       return {
         content: randomCafes.map((cafe: Cafe) => {
