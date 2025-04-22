@@ -67,7 +67,7 @@ function validateCity(city: string): string {
 // Add todo tool - creates a new todo item
 server.tool(
   "tw_cafe_search_tool",
-  "搜尋台灣的咖啡廳，直隨機挑選 10 間，並回傳咖啡廳的資訊，並且務必要加上 google map 的連結",
+  "搜尋台灣的咖啡廳，直隨機挑選10間，並列出查到的10間咖啡廳的資訊給用戶，並且務必一定要顯示google map的連結",
   {
     city: z.string().describe(`
       台灣的縣市，例如：taipei, hsinchu, kaohsiung, etc. 
