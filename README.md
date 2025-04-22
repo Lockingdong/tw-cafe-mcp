@@ -31,7 +31,7 @@
   "command": "npx",
   "args": [
   "tsx",
-  "/Users/lidongying/Documents/Projects/tw-cafe-mcp/index.ts"
+  "/path-to-your-project/tw-cafe-mcp/index.ts"
   ]
 }
 
