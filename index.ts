@@ -73,8 +73,11 @@ server.tool(
       台灣的縣市，例如：taipei, hsinchu, kaohsiung, etc. 
       如輸入中文，會自動轉換為英文
     `),
+    dist: z.string().describe(`
+    在縣市後面緊接著的區域，如"信義區"、"中正區"、"南區"等。
+      `)
   },
-  async ({ city }) => {
+  async ({ city, dist }) => {
     try {
       if (!city) {
         throw new Error("縣市不能為空");
@@ -82,7 +85,7 @@ server.tool(
 
       // 驗證縣市名稱
       const validCity = validateCity(city);
-      
+
       // 取得全台灣咖啡廳資料
       const response = await axios.get(`${twCafeUrl}/${validCity}`)
       const cafes = response.data as Cafe[];
@@ -97,8 +100,13 @@ server.tool(
       }
   
       // 隨機挑選 10 間，如果不足 10 間，則回傳所有資料
-      const randomCafes = cafes.sort(() => Math.random() - 0.5).slice(0, 10);
-  
+      const randomCafes = cafes.filter(cafe => {
+        // 如果有輸入區域，則過濾出符合的咖啡廳
+        if (!dist) return true; // 如果沒有輸入區域，則不過濾
+        // 檢查地址中是否包含區域名稱
+        return cafe.address.includes(dist)
+      }).sort(() => Math.random() - 0.5).slice(0, 10);
+
       return {
         content: randomCafes.map((cafe: Cafe) => {
           const googleMapLink = `http://maps.google.com/?q=${encodeURIComponent(cafe.name)}`;
