@@ -23,7 +23,9 @@
   - 座位供應情況評分
 
 ## MCP 安裝設定
+1. `npm install`
 
+2. 設定 MCP Config
 ```
 "tw-cafe-mcp": {
   "command": "npx",
