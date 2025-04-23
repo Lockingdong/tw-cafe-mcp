@@ -73,7 +73,7 @@ server.tool(
       台灣的縣市，例如：taipei, hsinchu, kaohsiung, etc. 
       如輸入中文，會自動轉換為英文
     `),
-    dist: z.string().describe(`
+    dist: z.string(). optional().describe(`
     在縣市後面緊接著的區域，如"信義區"、"中正區"、"南區"等。
       `)
   },
